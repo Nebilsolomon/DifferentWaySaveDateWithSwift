@@ -45,6 +45,29 @@ class TableViewController: UITableViewController {
         print("nebil")
     }
     
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.accessoryType = .detailButton
+        
+       // print(myArray[tableView.indexPathForSelectedRow!.row])
+//        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+//
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//
+//        }
+//        else {
+//
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//
+//        }
+        
+//tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    
+        
+        
+    }
+    
 }
 
 
