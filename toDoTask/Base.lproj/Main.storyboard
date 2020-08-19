@@ -29,7 +29,14 @@
                             <outlet property="delegate" destination="ecT-fa-WN1" id="hiq-SU-2vh"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="MyTask" id="zd5-SX-5s8"/>
+                    <navigationItem key="navigationItem" title="MyTask" id="zd5-SX-5s8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="676-IY-UWd">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="addNewAction:" destination="ecT-fa-WN1" id="J2i-TM-28h"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o9N-vf-IY2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

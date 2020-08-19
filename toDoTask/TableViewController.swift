@@ -10,7 +10,7 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    var myArray = ["nebil","mehmet","izzet","kazim","suleyman"]
+    var myArray = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,33 +40,68 @@ class TableViewController: UITableViewController {
         return cell
     }
     
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("nebil")
-    }
-    
-    
+
+         //MARK: Mark cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .detailButton
         
-       // print(myArray[tableView.indexPathForSelectedRow!.row])
-//        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-//
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//
-//        }
-//        else {
-//
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-//
-//        }
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+
+        }
+        else {
+
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+
+        }
         
-//tableView.deselectRow(at: indexPath, animated: true)
+   
+       
+        
         tableView.deselectRow(at: indexPath, animated: true)
     
         
         
     }
+    
+    //MARK: -  ADD new Item
+    
+    
+    
+    @IBAction func addNewAction(_ sender: UIBarButtonItem) {
+     var  myText = UITextField()
+    
+        let alert = UIAlertController(title: "Add New Item", message:"", preferredStyle: .alert)
+        
+ 
+        let alerAction = UIAlertAction(title: "ADD", style: .default) { (action) in
+            
+            self.myArray.append(myText.text!)
+            self.tableView.reloadData()
+            
+            //print(myText.text!)
+
+            
+        }
+       
+        alert.addTextField { (textfield) in
+            textfield.placeholder = "please add item"
+            
+            myText = textfield
+            
+        }
+        
+        alert.addAction(alerAction)
+        
+
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    
+    
+    
     
 }
 
