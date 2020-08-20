@@ -10,16 +10,20 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
+    var saveData = UserDefaults.standard
     var myArray = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        
+        if  let item = saveData.array(forKey: "nebil") as? [String] {
+            
+            myArray = item
+        }
+ 
+    
     }
 
     // MARK: - Table view data source
@@ -77,8 +81,11 @@ class TableViewController: UITableViewController {
  
         let alerAction = UIAlertAction(title: "ADD", style: .default) { (action) in
             
+            
             self.myArray.append(myText.text!)
-            self.tableView.reloadData()
+            self.saveData.set(self.myArray, forKey: "nebil")
+   
+                        self.tableView.reloadData()
             
             //print(myText.text!)
 
