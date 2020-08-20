@@ -11,17 +11,37 @@ import UIKit
 class TableViewController: UITableViewController {
     
     var saveData = UserDefaults.standard
-    var myArray = [String]()
+    var myArray = [Item]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let item = Item()
+
+        item.title = "nebil"
+        
+        myArray.append(item)
+        
+        let item2 = Item()
+
+           item2.title = "gokdemir"
+           
+           myArray.append(item2)
+
+        let item3 = Item()
+
+           item3.title = "silo"
+           
+           myArray.append(item3)
+
 
         
         
-        if  let item = saveData.array(forKey: "nebil") as? [String] {
-            
-            myArray = item
-        }
+//        if  let item = saveData.array(forKey: "nebil") as? [String] {
+//
+//            myArray = item
+//        }
  
     
     }
@@ -39,7 +59,16 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        cell.textLabel?.text = myArray[indexPath.row]
+        cell.textLabel?.text = myArray[indexPath.row].title
+        
+        if myArray[indexPath.row].done == false {
+            
+            cell.accessoryType = .none
+        }
+        else {
+            cell.accessoryType = .checkmark
+        }
+        
         
         return cell
     }
@@ -47,18 +76,31 @@ class TableViewController: UITableViewController {
 
          //MARK: Mark cell
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .detailButton
-        
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-
+   
+        if myArray[indexPath.row].done == false {
+            
+            myArray[indexPath.row].done = true
+           
         }
         else {
-
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-
+            
+            myArray[indexPath.row].done = false
+            
         }
+        
+        
+        tableView.reloadData()
+        
+//        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+//
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//
+//        }
+//        else {
+//
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//
+//        }
         
    
        
@@ -81,9 +123,10 @@ class TableViewController: UITableViewController {
  
         let alerAction = UIAlertAction(title: "ADD", style: .default) { (action) in
             
-            
-            self.myArray.append(myText.text!)
-            self.saveData.set(self.myArray, forKey: "nebil")
+           let item = Item()
+            item.title = myText.text!
+            self.myArray.append(item)
+          //  self.saveData.set(self.myArray, forKey: "nebil")
    
                         self.tableView.reloadData()
             
