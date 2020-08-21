@@ -12,10 +12,14 @@ class TableViewController: UITableViewController {
     
     var saveData = UserDefaults.standard
     var myArray = [Item]()
+    
+    var dataPathFile = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("nebilllxx.plist")
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    print(dataPathFile)
         
         
 
@@ -71,7 +75,7 @@ class TableViewController: UITableViewController {
             
         }
         
-        
+        dataSaved()
         tableView.reloadData()
         
 
@@ -91,7 +95,7 @@ class TableViewController: UITableViewController {
     
     @IBAction func addNewAction(_ sender: UIBarButtonItem) {
      var  myText = UITextField()
-    
+     
         let alert = UIAlertController(title: "Add New Item", message:"", preferredStyle: .alert)
         
  
@@ -100,8 +104,9 @@ class TableViewController: UITableViewController {
            let item = Item()
             item.title = myText.text!
             self.myArray.append(item)
+            self.dataSaved()
           //  self.saveData.set(self.myArray, forKey: "nebil")
-   
+  
                         self.tableView.reloadData()
             
             //print(myText.text!)
@@ -123,6 +128,27 @@ class TableViewController: UITableViewController {
         
     }
     
+    
+    // MARK: Save Data
+  
+    
+    func dataSaved()  {
+         var encoder = PropertyListEncoder()
+        
+        do {
+         
+              let data = try  encoder.encode(self.myArray)
+              
+              try data.write(to: self.dataPathFile!)
+          
+          
+          }catch {
+              
+              
+              
+          }
+        
+    }
     
     
     
