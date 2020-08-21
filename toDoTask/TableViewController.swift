@@ -17,24 +17,7 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         
-        let item = Item()
-
-        item.title = "nebil"
         
-        myArray.append(item)
-        
-        let item2 = Item()
-
-           item2.title = "gokdemir"
-           
-           myArray.append(item2)
-
-        let item3 = Item()
-
-           item3.title = "silo"
-           
-           myArray.append(item3)
-
 
         
         
@@ -74,7 +57,7 @@ class TableViewController: UITableViewController {
     }
     
 
-         //MARK: Mark cell
+         //MARK: didSelectRow
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
    
         if myArray[indexPath.row].done == false {
@@ -91,16 +74,7 @@ class TableViewController: UITableViewController {
         
         tableView.reloadData()
         
-//        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-//
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-//
-//        }
-//        else {
-//
-//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-//
-//        }
+
         
    
        
