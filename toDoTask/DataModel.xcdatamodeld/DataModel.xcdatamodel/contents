@@ -3,12 +3,14 @@
     <entity name="Item" representedClassName=".Item" syncable="YES" codeGenerationType="class">
         <attribute name="done" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
+        <relationship name="parentCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MyCategory" inverseName="item" inverseEntity="MyCategory"/>
     </entity>
     <entity name="MyCategory" representedClassName=".MyCategory" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String"/>
+        <relationship name="item" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Item" inverseName="parentCategory" inverseEntity="Item"/>
     </entity>
     <elements>
-        <element name="MyCategory" positionX="-63" positionY="-27" width="128" height="58"/>
-        <element name="Item" positionX="147.8125" positionY="-50.58203125" width="128" height="73"/>
+        <element name="Item" positionX="148.65625" positionY="-44.28515625" width="128" height="88"/>
+        <element name="MyCategory" positionX="-59.2578125" positionY="-26.640625" width="128" height="73"/>
     </elements>
 </model>
