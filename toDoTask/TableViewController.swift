@@ -7,22 +7,24 @@
 //
 
 import UIKit
+import CoreData
+
 
 class TableViewController: UITableViewController {
     
     var saveData = UserDefaults.standard
     var myArray = [Item]()
     
-    var dataPathFile = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("nebilllxx.plist")
-    
+//    var dataPathFile = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("nebilllxx.plist")
+   let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    print(dataPathFile)
         
+        loadData()
         
-
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         
 //        if  let item = saveData.array(forKey: "nebil") as? [String] {
@@ -63,17 +65,21 @@ class TableViewController: UITableViewController {
 
          //MARK: didSelectRow
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-   
-        if myArray[indexPath.row].done == false {
-            
-            myArray[indexPath.row].done = true
-           
-        }
-        else {
-            
-            myArray[indexPath.row].done = false
-            
-        }
+  
+        context?.delete(myArray[indexPath.row])
+        myArray.remove(at: indexPath.row)
+        
+        
+//        if myArray[indexPath.row].done == false {
+//
+//            myArray[indexPath.row].done = true
+//
+//        }
+//        else {
+//
+//            myArray[indexPath.row].done = false
+//
+//        }
         
         dataSaved()
         tableView.reloadData()
@@ -100,10 +106,15 @@ class TableViewController: UITableViewController {
         
  
         let alerAction = UIAlertAction(title: "ADD", style: .default) { (action) in
+         
             
-           let item = Item()
-            item.title = myText.text!
+           
+            let item = Item(context: self.context!)
+            item.title = myText.text
+            item.done = false
+            
             self.myArray.append(item)
+         
             self.dataSaved()
           //  self.saveData.set(self.myArray, forKey: "nebil")
   
@@ -133,13 +144,10 @@ class TableViewController: UITableViewController {
   
     
     func dataSaved()  {
-         var encoder = PropertyListEncoder()
         
         do {
          
-              let data = try  encoder.encode(self.myArray)
-              
-              try data.write(to: self.dataPathFile!)
+            try self.context?.save()
           
           
           }catch {
@@ -151,8 +159,71 @@ class TableViewController: UITableViewController {
     }
     
     
+    // MARK: Load DATA
+    
+    
+    func loadData()  {
+     
+        let request:NSFetchRequest <Item>    = Item.fetchRequest()
+        do {
+            self.myArray =   try context?.fetch(request) as! [Item]
+        
+        }catch {
+            
+            
+        }
+        tableView.reloadData()
+        
+    }
+    
+    
+
+    
+    
+
     
     
 }
 
 
+// MARK: Extension
+
+extension TableViewController : UISearchBarDelegate {
+    
+     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+         
+         
+         let request : NSFetchRequest<Item> = Item.fetchRequest()
+         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+         
+         request.predicate = predicate
+         
+         let sort = NSSortDescriptor(key: "title", ascending: true)
+      
+         request.sortDescriptors  = [sort]
+         
+    do {
+        self.myArray =   try context?.fetch(request) as! [Item]
+    
+    }catch {
+        
+        
+    }
+         
+         tableView.reloadData()
+     }
+    
+    
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+      
+       
+        if searchBar.text?.count == 0 {
+            
+            self.loadData()
+            searchBar.resignFirstResponder()
+        }
+    }
+    
+}
